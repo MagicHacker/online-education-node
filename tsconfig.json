@@ -1,0 +1,24 @@
+{
+  "complierOptions": {
+    "incremental": true, // 增量编译提高编译速度
+    "target": "ES2015", // 编译的js版本
+    "module": "commonjs", // 采用的模块系统
+    "allowJs": false, // 不编译js文件
+    "checkJS": true, // 检查js文件中的错误
+    "declaration": false, // 编译时不创建声明文件
+    "lib": ["es5", "es2015", "es2016", "es2017", "es2018", "dom"], // 编译时需要引入的库列表
+    "declarationMap": false, // 编译时不创建声明文件的map文件
+    "sourceMap": true, // 编译时生成map文件
+    "outDir": "dist", // ts编译输出目录
+    "removeComments": false, // 编译后不删除注释
+    "noUnusedLocals": true, // 开启定义了变量但是没有使用的检查
+    "noUnParameters": true, // 开启在函数体重没有使用参数的检查
+    "moduleResolution": "node", // 模块解析策略
+    "baseUrl": "src",
+    "typeRoots": ["./node_modules/@types"], // 指定声明文件或文件夹的路径列表，只有此处的声明文件会被加载
+    "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入 仅用于提示，不影响编译结果
+    "esModuleInterop": true, // 编译时，在代码中注入工具类(__importDefault、__importStar)对ESM与commonjs混用情况做兼容处理
+    "include": ["src"], // 需要编译的文件
+    "exclude": ["node_modules"] // 编译需要排除的文件
+  }
+}
