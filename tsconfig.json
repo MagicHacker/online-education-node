@@ -17,8 +17,9 @@
     "baseUrl": "src",
     "typeRoots": ["./node_modules/@types"], // 指定声明文件或文件夹的路径列表，只有此处的声明文件会被加载
     "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入 仅用于提示，不影响编译结果
+    "noImplicitAny": true, // 参数用any
     "esModuleInterop": true, // 编译时，在代码中注入工具类(__importDefault、__importStar)对ESM与commonjs混用情况做兼容处理
-    "include": ["src"], // 需要编译的文件
+    "include": ["./src/**/*"], // 需要编译的文件
     "exclude": ["node_modules"] // 编译需要排除的文件
   }
 }
