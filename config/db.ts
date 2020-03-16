@@ -6,7 +6,7 @@ module.exports = {
     host: "127.0.0.1",
     user: "root",
     password: "zhang2684323",
-    database: "task",
+    database: "onlineEducation",
     port: 3306
   }
 };
