@@ -3,6 +3,7 @@
     "incremental": true, // 增量编译提高编译速度
     "target": "ES2015", // 编译的js版本
     "module": "commonjs", // 采用的模块系统
+    "strict": true, // 严格模式
     "allowJs": false, // 不编译js文件
     "checkJS": true, // 检查js文件中的错误
     "declaration": false, // 编译时不创建声明文件
@@ -19,7 +20,7 @@
     "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块中默认导入 仅用于提示，不影响编译结果
     "noImplicitAny": true, // 参数用any
     "esModuleInterop": true, // 编译时，在代码中注入工具类(__importDefault、__importStar)对ESM与commonjs混用情况做兼容处理
-    "include": ["./src/**/*"], // 需要编译的文件
+    "include": ["./src/**/*.ts"], // 需要编译的文件
     "exclude": ["node_modules"] // 编译需要排除的文件
   }
 }
