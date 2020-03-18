@@ -10,7 +10,7 @@ module.exports = {
     database: "onlineEducation",
     port: 3306
   },
-  sqlConnect: function(sql) {
+  sqlConnect: function(sql, data, callback) {
     const connection = mysql.createConnection(this.mysql);
     connection.connect(err => {
       if (err) {
@@ -20,5 +20,9 @@ module.exports = {
         console.log("连接成功");
       }
     });
+    console.log(sql);
+    connection.query(sql, data, callback);
+    // 关闭连接
+    connection.end();
   }
 };
