@@ -16,6 +16,15 @@ const formatDate = time => {
     minutes <= 10 ? "0" + minutes : minutes
   }:${senond <= 10 ? "0" + senond : senond}`;
 };
+// 格式化成功响应
+const formatSuccessRes = result => {
+  return {
+    code: 0,
+    result,
+    total: result.length
+  };
+};
 module.exports = {
-  formatDate
+  formatDate,
+  formatSuccessRes
 };
