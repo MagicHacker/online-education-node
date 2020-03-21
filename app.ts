@@ -3,6 +3,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const classRouter = require('./routes/class.ts')
+const docRouter = require('./routes/document.ts')
 const app = express()
 
 app.use(logger('dev'))
@@ -25,7 +26,7 @@ app.all('*', (req, res, next) => {
 
 // 挂载中间件方法到路径上
 app.use('/class', classRouter)
-
+app.use('/doc', docRouter)
 app.listen(3000, () => {
   console.log('\x1b[32m', 'http://localhost:3000')
 })
