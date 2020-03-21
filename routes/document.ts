@@ -18,7 +18,7 @@ router.get('/getDocs', (req, res) => {
     sql += ' where upload_time = ?'
     docName = ''
   } else if (docName && createTime) {
-    sql += ' where doc_name = ? or upload_time = ?'
+    sql += ' where doc_name = ? and upload_time = ?'
   }
   database.sqlConnect(sql, [docName, createTime], (err, result) => {
     if (err) {
