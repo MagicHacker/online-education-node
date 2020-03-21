@@ -19,7 +19,7 @@ router.get('/getClass', (req, res) => {
     sql += ' where create_time = ?'
     className = ''
   } else if (className && createTime) {
-    sql += ' where cate_name = ? or create_time = ?'
+    sql += ' where cate_name = ? and create_time = ?'
   }
   database.sqlConnect(sql, [className, createTime], (err, result) => {
     if (err) {
