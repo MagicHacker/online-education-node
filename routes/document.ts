@@ -3,8 +3,8 @@
  */
 const express = require('express')
 const router = express.Router()
-const database = require('../config/db')
-const utils = require('../utils/index')
+const database = require('../config/db.ts')
+const utils = require('../utils/index.ts')
 
 // 查询文档
 router.get('/getDocs', (req, res) => {
