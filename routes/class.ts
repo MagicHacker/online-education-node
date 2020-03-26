@@ -7,25 +7,23 @@ const router = express.Router()
 const database = require('../config/db.ts')
 const utils = require('../utils/index.ts')
 // 查询分类
-router.get('/getClass', (req, res) => {
+router.get('/getClass', async (req, res) => {
   // 获取请求参数
-  const { className = '', createTime = '' } = req.query
+  const { className = '', createTime = '', pageNum, pageSize } = req.query
+  const totalSql = 'select count(*) as total from category_tbl'
   const sql =
-    'select * from category_tbl where cate_name like ? and create_time like ?'
-  database.sqlConnect(
-    sql,
-    [`%${className}%`, `%${createTime}%`],
-    (err, result) => {
-      if (err) {
-        res.send('查询失败' + err)
-      } else {
-        result.forEach(item => {
-          item.create_time = utils.formatDate(item.create_time)
-        })
-        res.json(utils.formatSuccessRes(result))
-      }
-    }
-  )
+    'select * from category_tbl where cate_name like ? and create_time like ? limit ?,?'
+  const total = await database.sqlConnect(totalSql, [])
+  const result = await database.sqlConnect(sql, [
+    `%${className}%`,
+    `%${createTime}%`,
+    (parseInt(pageNum) - 1) * parseInt(pageSize),
+    parseInt(pageSize)
+  ])
+  result.forEach(item => {
+    item.create_time = utils.formatDate(item.create_time)
+  })
+  res.json(utils.formatSuccessRes(result, total[0].total, pageNum, pageSize))
 })
 // 添加分类
 router.post('/addClass', (req, res) => {
