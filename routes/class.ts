@@ -26,49 +26,47 @@ router.get('/getClass', async (req, res) => {
   res.json(utils.formatSuccessRes(result, total[0].total, pageNum, pageSize))
 })
 // 添加分类
-router.post('/addClass', (req, res) => {
+router.post('/addClass', async (req, res) => {
   const { className, classSort } = req.body
   const sql = 'insert into category_tbl (cate_name,cate_sort) values (?,?)'
-  database.sqlConnect(sql, [className, classSort], err => {
-    if (err) {
-      res.send('插入失败' + err)
-    } else {
-      res.send({
-        code: 0,
-        msg: '插入成功'
-      })
-    }
-  })
+  const result = await database.sqlConnect(sql, [className, classSort])
+  // 未报错
+  if (result) {
+    res.send({
+      code: 0,
+      msg: '添加成功'
+    })
+  } else {
+    res.send('添加失败' + result)
+  }
 })
 // 更新分类
-router.post('/updateClass', (req, res) => {
+router.post('/updateClass', async (req, res) => {
   const { classId, className, classSort } = req.body
   const sql =
     'update category_tbl set cate_name = ?, cate_sort = ? where cate_id = ?'
-  database.sqlConnect(sql, [className, classSort, classId], err => {
-    if (err) {
-      res.send('更新失败' + err)
-    } else {
-      res.send({
-        code: 0,
-        msg: '更新成功'
-      })
-    }
-  })
+  const result = await database.sqlConnect(sql, [className, classSort, classId])
+  if (result) {
+    res.send({
+      code: 0,
+      msg: '更新成功'
+    })
+  } else {
+    res.send('更新失败' + result)
+  }
 })
 // 删除分类
-router.delete('/deleteClass', (req, res) => {
+router.delete('/deleteClass', async (req, res) => {
   const { classId } = req.query
   const sql = 'delete from category_tbl where cate_id = ?'
-  database.sqlConnect(sql, [classId], err => {
-    if (err) {
-      res.send('删除失败' + err)
-    } else {
-      res.send({
-        code: 0,
-        msg: '删除成功'
-      })
-    }
-  })
+  const result = await database.sqlConnect(sql, [classId])
+  if (result) {
+    res.send({
+      code: 0,
+      msg: '删除成功'
+    })
+  } else {
+    res.send('删除失败' + result)
+  }
 })
 module.exports = router
