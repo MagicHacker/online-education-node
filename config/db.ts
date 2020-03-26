@@ -10,7 +10,7 @@ module.exports = {
     database: 'onlineEducation',
     port: 3306
   },
-  sqlConnect: function(sql, data): Promise<{}> {
+  sqlConnect: function(sql, data) {
     const connection = mysql.createConnection(this.mysql)
     return new Promise((resolve, reject) => {
       connection.connect(err => {

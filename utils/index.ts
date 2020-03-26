@@ -6,7 +6,7 @@ const formatDate = time => {
   const date = new Date(time)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
-  const day = date.getDay()
+  const day = date.getDate()
   const hours = date.getHours()
   const minutes = date.getMinutes()
   const senond = date.getSeconds()
@@ -17,15 +17,7 @@ const formatDate = time => {
   }:${senond <= 10 ? '0' + senond : senond}`
 }
 // 格式化成功响应
-interface SuccessResult {
-  code: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: any
-  total: number
-  pageNum: string
-  pageSize: string
-}
-const formatSuccessRes = (result, total, pageNum, pageSize): SuccessResult => {
+const formatSuccessRes = (result, total, pageNum, pageSize) => {
   return {
     code: 0,
     result,
