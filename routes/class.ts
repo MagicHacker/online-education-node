@@ -9,17 +9,28 @@ const utils = require('../utils/index.ts')
 // 查询分类
 router.get('/getClass', async (req, res) => {
   // 获取请求参数
-  const { className = '', createTime = '', pageNum, pageSize } = req.query
+  const {
+    className = '',
+    createTime = '',
+    pageNum,
+    pageSize,
+    classId
+  } = req.query
   const totalSql = 'select count(*) as total from category_tbl'
-  const sql =
-    'select * from category_tbl where cate_name like ? and create_time like ? limit ?,?'
-  const total = await database.sqlConnect(totalSql, [])
-  const result = await database.sqlConnect(sql, [
+  let data = [
     `%${className}%`,
     `%${createTime}%`,
     (parseInt(pageNum) - 1) * parseInt(pageSize),
     parseInt(pageSize)
-  ])
+  ]
+  let sql =
+    'select * from category_tbl where cate_name like ? and create_time like ? limit ?,?'
+  if (classId) {
+    sql = 'select * from category_tbl where cate_id = ?'
+    data = [classId]
+  }
+  const total = await database.sqlConnect(totalSql, [])
+  const result = await database.sqlConnect(sql, data)
   result.forEach(item => {
     item.create_time = utils.formatDate(item.create_time)
   })
