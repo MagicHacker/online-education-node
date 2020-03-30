@@ -21,6 +21,9 @@ router.get("/getStudents", async (req, res) => {
     parseInt(pageSize)
   ]);
   if (result) {
+    result.forEach(item => {
+      item.rgtTime = utils.formatDate(item.rgtTime);
+    });
     res.json(utils.formatSuccessRes(result, total[0].total, pageNum, pageSize));
   } else {
     res.send("查询失败" + result);
