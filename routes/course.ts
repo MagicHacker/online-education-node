@@ -18,8 +18,11 @@ router.get("/getCourses", async (req, res) => {
     pageSize
   } = req.query;
   const totalSql = "select count(*) as total from course_tbl";
-  const sql =
-    "select course.*,teacher.name as teacherName from course_tbl course left join teac_course_tbl teaCourse on course.course_id = teaCourse.course_id left join teacher_tbl teacher on teaCourse.teacher_id = teacher.phone where course.name like ? and teacher.name like ? and one_level like ? and two_level like ? and create_time like ? limit ?,?";
+  const sql = `select course.*,teacher.name as teacherName from course_tbl course 
+    left join teac_course_tbl teaCourse on course.course_id = teaCourse.course_id 
+    left join teacher_tbl teacher on teaCourse.teacher_id = teacher.phone 
+    where course.name like ? and teacher.name like ? and one_level like ? 
+    and two_level like ? and create_time like ? limit ?,?`;
   const total = await database.sqlConnect(totalSql, []);
   const result = await database.sqlConnect(sql, [
     `%${courseName}%`,
