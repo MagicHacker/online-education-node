@@ -10,6 +10,7 @@ const teacherRouter = require("./routes/teacher.ts");
 const courseRouter = require("./routes/course.ts");
 const salaryRouter = require("./routes/salary.ts");
 const orderRouter = require("./routes/order.ts");
+const userRouter = require("./routes/user.ts");
 const app = express();
 
 app.use(logger("dev"));
@@ -39,6 +40,7 @@ app.use("/teacher", teacherRouter);
 app.use("/course", courseRouter);
 app.use("/salary", salaryRouter);
 app.use("/order", orderRouter);
+app.use("/user", userRouter);
 app.listen(3000, () => {
   console.log("\x1b[32m", "http://localhost:3000");
 });
