@@ -14,27 +14,29 @@ router.get("/getCourses", async (req, res) => {
     oneLevel = "",
     twoLevel = "",
     createTime = "",
+    courseId = "",
     pageNum,
-    pageSize
+    pageSize,
   } = req.query;
   const totalSql = "select count(*) as total from course_tbl";
   const sql = `select course.*,teacher.name as teacherName from course_tbl course 
     left join teac_course_tbl teaCourse on course.course_id = teaCourse.course_id 
     left join teacher_tbl teacher on teaCourse.teacher_id = teacher.phone 
-    where course.name like ? and teacher.name like ? and one_level like ? 
+    where course.course_id like ? and course.name like ? and teacher.name like ? and one_level like ? 
     and two_level like ? and create_time like ? limit ?,?`;
   const total = await database.sqlConnect(totalSql, []);
   const result = await database.sqlConnect(sql, [
+    `%${courseId}%`,
     `%${courseName}%`,
     `%${teacherName}%`,
     `%${oneLevel}%`,
     `%${twoLevel}%`,
     `%${createTime}%`,
     (parseInt(pageNum) - 1) * parseInt(pageSize),
-    parseInt(pageSize)
+    parseInt(pageSize),
   ]);
   if (result) {
-    result.forEach(item => {
+    result.forEach((item) => {
       item.createTime = utils.formatDate(item.create_time);
     });
     res.json(utils.formatSuccessRes(result, total[0].total, pageNum, pageSize));
@@ -57,7 +59,7 @@ router.post("/addCourse", (req, res) => {
       } else {
         res.send({
           code: 0,
-          msg: "插入成功"
+          msg: "插入成功",
         });
       }
     }
@@ -65,31 +67,36 @@ router.post("/addCourse", (req, res) => {
 });
 
 // 更新课程
-router.post("/updateCourse", (req, res) => {
+router.post("/updateCourse", async (req, res) => {
   const {
+    courseName = "",
+    oneLevel = "",
+    twoLevel = "",
+    grade = "",
+    price = "",
+    courseUnit = "",
+    courseId,
+    showStatus = 0,
+  } = req.body;
+  const sql =
+    "update course_tbl set name = ?,one_level = ?, two_level = ?,grade = ?, price = ?, course_unit = ?, show_status = ? where course_id = ?";
+  const result = await database.sqlConnect(sql, [
     courseName,
     oneLevel,
     twoLevel,
     grade,
     price,
     courseUnit,
-    courseId
-  } = req.body;
-  const sql =
-    "update course_tbl set name = ?,one_level = ?, two_level = ?,grade = ?, price = ?, course_unit = ? where course_id = ?";
-  database.sqlConnect(
-    sql,
-    [courseName, oneLevel, twoLevel, grade, price, courseUnit, courseId],
-    (err, result) => {
-      if (err) {
-        res.send("更新失败" + err);
-      } else {
-        res.send({
-          code: 0,
-          msg: "更新成功"
-        });
-      }
-    }
-  );
+    showStatus,
+    courseId,
+  ]);
+  if (result) {
+    res.send({
+      code: 0,
+      msg: "更新成功",
+    });
+  } else {
+    res.send("更新失败" + result);
+  }
 });
 module.exports = router;
