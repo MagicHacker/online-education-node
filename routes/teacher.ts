@@ -14,7 +14,7 @@ router.get("/getTeachers", async (req, res) => {
     status = "",
     regTime = "",
     pageNum,
-    pageSize
+    pageSize,
   } = req.query;
   const totalSql = "select count(*) as total from teacher_tbl";
   const sql = `select any_value(sub.name) as name,any_value(sub.phone) as phone,
@@ -34,10 +34,10 @@ router.get("/getTeachers", async (req, res) => {
     `%${status}%`,
     `%${regTime}%`,
     (parseInt(pageNum) - 1) * parseInt(pageSize),
-    parseInt(pageSize)
+    parseInt(pageSize),
   ]);
   if (result) {
-    result.forEach(item => {
+    result.forEach((item) => {
       item.rgt_time = utils.formatDate(item.rgt_time);
     });
     res.json(utils.formatSuccessRes(result, total[0].total, pageNum, pageSize));
@@ -60,7 +60,7 @@ router.post("/addTeacher", (req, res) => {
       } else {
         res.send({
           code: 0,
-          msg: "插入成功"
+          msg: "插入成功",
         });
       }
     }
@@ -68,23 +68,34 @@ router.post("/addTeacher", (req, res) => {
 });
 
 // 修改
-router.post("/updateTeacher", (req, res) => {
-  const { phone, name, gride, subject, commission, brief, status } = req.body;
+router.post("/updateTeacher", async (req, res) => {
+  const {
+    phone,
+    name = "",
+    gride = "",
+    subject = "",
+    commission = 0,
+    brief = "",
+    status = 0,
+  } = req.body;
   const sql =
     "update teacher_tbl set name = ?, gride = ?,subject = ?,commission = ?,brief = ?, status =? where phone = ?";
-  database.sqlConnect(
-    sql,
-    [name, gride, subject, commission, brief, status, phone],
-    (err, result) => {
-      if (err) {
-        res.send("更新失败" + err);
-      } else {
-        res.send({
-          code: 0,
-          msg: "更新成功"
-        });
-      }
-    }
-  );
+  const result = await database.sqlConnect(sql, [
+    name,
+    gride,
+    subject,
+    commission,
+    brief,
+    status,
+    phone,
+  ]);
+  if (result) {
+    res.send({
+      code: 0,
+      msg: "更新成功",
+    });
+  } else {
+    res.send("更新失败" + result);
+  }
 });
 module.exports = router;
