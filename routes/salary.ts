@@ -1,7 +1,8 @@
 /**
  * 收入管理
  */
-const express = require("express");
+import * as express from 'express'
+// const express = require("express");
 const router = express.Router();
 const database = require("../config/db.ts");
 const utils = require("../utils/index.ts");
